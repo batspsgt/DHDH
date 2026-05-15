@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derry Hill Digital Health | Prof. Grant Trewartha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #070F1E;
+    --dark: #0D1828;
+    --panel: #111D30;
+    --panel2: #152035;
+    --cyan: #00D4C8;
+    --blue: #4A90E2;
+    --teal: #0AADA3;
+    --gold: #F5A623;
+    --text: #EDF2FF;
+    --muted: #7A9BB5;
+    --border: rgba(0,212,200,0.15);
+    --glow: 0 0 40px rgba(0,212,200,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 5vw;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(7,15,30,0.88);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .logo-mark-svg {
+    width: 48px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .logo-text .brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+
+  .logo-text .tagline {
+    font-size: 0.62rem;
+    color: var(--cyan);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  nav ul {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--cyan); }
+
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan) !important;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase;
+    transition: background 0.2s, color 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    background: var(--cyan) !important;
+    color: var(--navy) !important;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 100px 5vw 80px;
+    position: relative;
+    overflow: hidden;
+    gap: 60px;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(0,212,200,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(74,144,226,0.06) 0%, transparent 60%);
+  }
+
+  .hero-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,200,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,200,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.2s;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--cyan);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.4s;
+  }
+
+  h1 em { font-style: normal; color: var(--cyan); }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 44px;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.6s;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.8s;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--cyan);
+    color: var(--navy);
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(0,212,200,0.25);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,212,200,0.35);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(122,155,181,0.4);
+    color: var(--muted);
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* ─── HERO VISUAL ─── */
+  .hero-visual {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 0.8s;
+  }
+
+  .vis-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: var(--glow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .vis-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  }
+
+  .vis-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .vis-label::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .gait-svg { width: 100%; height: 140px; }
+
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .metric {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(0,212,200,0.1);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+
+  .metric-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cyan);
+    display: block;
+  }
+
+  .metric-lbl {
+    font-size: 0.67rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  .vis-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .vis-tag {
+    font-size: 0.68rem;
+    padding: 5px 10px;
+    border-radius: 100px;
+    border: 1px solid rgba(74,144,226,0.3);
+    color: var(--blue);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ─── CREDENTIALS STRIP (FIXED) ─── */
+  .creds-strip {
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  /* Top row: centred label with decorative lines either side */
+  .creds-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 5vw 0;
+  }
+
+  .creds-header .creds-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(0,212,200,0.25));
+  }
+
+  .creds-header .creds-rule.right {
+    background: linear-gradient(to left, transparent, rgba(0,212,200,0.25));
+  }
+
+  .creds-header .label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Bottom row: the scrolling track */
+  .creds-scroll-row {
+    padding: 16px 0 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Fade edges */
+  .creds-scroll-row::before,
+  .creds-scroll-row::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .creds-scroll-row::before {
+    left: 0;
+    background: linear-gradient(to right, var(--panel), transparent);
+  }
+
+  .creds-scroll-row::after {
+    right: 0;
+    background: linear-gradient(to left, var(--panel), transparent);
+  }
+
+  .creds-track {
+    display: flex;
+    gap: 48px;
+    animation: marquee 32s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+
+  .cred-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    white-space: nowrap;
+    padding: 0 6px;
+  }
+
+  .cred-item svg { flex-shrink: 0; opacity: 0.6; }
+
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ─── SECTION GENERIC ─── */
+  section { padding: 100px 5vw; }
+
+  .section-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-eyebrow::after {
+    content: '';
+    flex: 1;
+    max-width: 40px;
+    height: 1px;
+    background: var(--cyan);
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  h2 em { font-style: normal; color: var(--cyan); }
+
+  .section-intro {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 600px;
+    font-weight: 300;
+    margin-bottom: 64px;
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #about::before {
+    content: '';
+    position: absolute;
+    right: -200px; top: -100px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,200,0.05), transparent 70%);
+    pointer-events: none;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .stat-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .stat-box:hover { border-color: rgba(0,212,200,0.4); transform: translateY(-4px); }
+
+  .stat-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--blue));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .stat-box:hover::after { transform: scaleX(1); }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--cyan);
+    line-height: 1;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .stat-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+  /* ─── SERVICES ─── */
+  #services { background: var(--navy); }
+
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-bottom: 56px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .service-card {
+    background: var(--panel);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+
+  .service-card:hover {
+    border-color: var(--border);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.3), 0 0 24px rgba(0,212,200,0.06);
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--blue));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .service-card:hover::before { opacity: 1; }
+
+  .service-icon {
+    width: 52px; height: 52px;
+    background: rgba(0,212,200,0.08);
+    border: 1px solid rgba(0,212,200,0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    transition: background 0.3s;
+  }
+
+  .service-card:hover .service-icon { background: rgba(0,212,200,0.15); }
+  .service-icon svg { color: var(--cyan); }
+
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .service-desc {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .service-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 20px; }
+
+  .stag {
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(0,212,200,0.07);
+    color: rgba(0,212,200,0.7);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid rgba(0,212,200,0.12);
+  }
+
+  /* ─── EXPERTISE ─── */
+  #expertise {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .expertise-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+
+  .exp-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .exp-item:hover { background: rgba(0,212,200,0.05); }
+
+  .exp-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+    opacity: 0.6;
+    flex-shrink: 0;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .exp-item:hover .exp-dot { opacity: 1; transform: scale(1.4); }
+
+  .exp-text { font-size: 0.92rem; color: var(--muted); transition: color 0.2s; }
+  .exp-item:hover .exp-text { color: var(--text); }
+
+  .timeline { position: relative; padding-left: 28px; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--cyan), var(--blue), transparent);
+  }
+
+  .tl-item { position: relative; margin-bottom: 40px; }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -32px; top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 2px solid var(--cyan);
+  }
+
+  .tl-date { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; display: block; }
+  .tl-role { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+  .tl-org { font-size: 0.82rem; color: var(--muted); margin-bottom: 10px; }
+  .tl-desc { font-size: 0.85rem; line-height: 1.65; color: rgba(122,155,181,0.7); font-weight: 300; }
+
+  /* ─── CTA ─── */
+  #contact {
+    background: var(--navy);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #contact::before {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; height: 400px;
+    background: radial-gradient(ellipse, rgba(0,212,200,0.08), transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-box {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 80px 60px;
+    max-width: 860px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), var(--blue), transparent);
+  }
+
+  .cta-box h2 { margin-bottom: 20px; }
+
+  .cta-box p {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .cta-actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+  .email-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,212,200,0.06);
+    border: 1px solid rgba(0,212,200,0.2);
+    border-radius: 100px;
+    padding: 12px 24px;
+    font-size: 0.88rem;
+    color: var(--cyan);
+    margin-bottom: 32px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 40px 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-copy { font-size: 0.78rem; color: rgba(122,155,181,0.5); }
+
+  .footer-links { display: flex; gap: 28px; }
+
+  .footer-links a {
+    font-size: 0.78rem;
+    color: rgba(122,155,181,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--cyan); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* Gait waveform draw-on animation */
+  .wave-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLine 2.5s ease forwards 1s;
+  }
+
+  .wave-path-2 {
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    animation: drawLine 2s ease forwards 1.4s;
+  }
+
+  @keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .about-grid, .expertise-grid { grid-template-columns: 1fr; gap: 48px; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    nav ul { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    .cta-box { padding: 48px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     INLINE LOGO SVG DEFINITION (reused via <use>)
+     Striding figure: motion-capture joint nodes + gait waveform.
+     Forward knee corrected to bend anatomically forward.
+════════════════════════════════════════ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <defs>
+    <symbol id="logo-mark" viewBox="0 0 180 120">
+
+      <!-- Monitoring field arc -->
+      <circle cx="61" cy="48" r="45" fill="none" stroke="#00D4C8"
+              stroke-width="0.5" stroke-dasharray="2 4" opacity="0.2"/>
+
+      <!-- Limbs (drawn first so nodes sit on top) -->
+      <!-- Neck -->
+      <line x1="52" y1="21.5" x2="50" y2="28"
+            stroke="#00D4C8" stroke-width="1.7" stroke-linecap="round"/>
+      <!-- Torso -->
+      <line x1="50" y1="28" x2="47" y2="52"
+            stroke="#00D4C8" stroke-width="1.8" stroke-linecap="round"/>
+      <!-- Back arm -->
+      <polyline points="49,37 38,46 32,55" fill="none" stroke="#00D4C8"
+                stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Forward arm -->
+      <polyline points="49,37 62,42 72,49" fill="none" stroke="#00D4C8"
+                stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Back leg -->
+      <polyline points="47,52 38,68 32,82" fill="none" stroke="#00D4C8"
+                stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Forward leg — knee at (62,61) bends correctly forward -->
+      <polyline points="47,52 62,61 70,77" fill="none" stroke="#00D4C8"
+                stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Head -->
+      <circle cx="52" cy="13" r="8.5" fill="none" stroke="#00D4C8" stroke-width="1.7"/>
+
+      <!-- Glow halos (behind nodes) -->
+      <circle cx="50" cy="28" r="7"  fill="rgba(0,212,200,0.22)"/>
+      <circle cx="47" cy="52" r="10" fill="rgba(0,212,200,0.22)"/>
+      <circle cx="70" cy="77" r="8"  fill="rgba(0,212,200,0.22)"/>
+
+      <!-- Joint nodes -->
+      <circle cx="50" cy="28" r="3.5" fill="#00D4C8"/>
+      <circle cx="47" cy="52" r="4.5" fill="#00D4C8"/>
+      <circle cx="62" cy="61" r="3.0" fill="#00D4C8"/>
+      <circle cx="70" cy="77" r="3.5" fill="#00D4C8"/>
+      <circle cx="62" cy="42" r="2.4" fill="#00D4C8" opacity="0.8"/>
+      <circle cx="38" cy="68" r="2.8" fill="#00D4C8" opacity="0.7"/>
+      <circle cx="32" cy="82" r="2.5" fill="#00D4C8" opacity="0.6"/>
+      <circle cx="38" cy="46" r="2.2" fill="#00D4C8" opacity="0.6"/>
+
+      <!-- Bridge ankle → waveform -->
+      <line x1="70" y1="77" x2="76" y2="77"
+            stroke="#00D4C8" stroke-width="1.8" stroke-linecap="round"/>
+
+      <!-- Gait waveform — cycle 1 (full) -->
+      <polyline points="76,77 80,63 83,78 87,60 91,77 97,77"
+        fill="none" stroke="#00D4C8" stroke-width="2.0"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Cycle 2 (softer) -->
+      <polyline points="97,77 101,67 104,79 108,63 112,77 119,77"
+        fill="none" stroke="#00D4C8" stroke-width="1.6" opacity="0.65"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Cycle 3 (fading, kept within viewBox) -->
+      <polyline points="119,77 123,70 126,80 130,66 134,77 141,77"
+        fill="none" stroke="#00D4C8" stroke-width="1.2" opacity="0.38"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Fade trail (within 180 viewBox) -->
+      <line x1="141" y1="77" x2="162" y2="77"
+            stroke="#00D4C8" stroke-width="0.9" opacity="0.12" stroke-linecap="round"/>
+
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ════════ NAV ════════ -->
+<nav>
+  <a href="#" class="logo">
+    <svg class="logo-mark-svg" style="width:64px;height:44px;overflow:visible">
+      <use href="#logo-mark"/>
+    </svg>
+    <div class="logo-text">
+      <span class="brand">Derry Hill Digital Health</span>
+      <span class="tagline">Academic Consultancy</span>
+    </div>
+  </a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+  </ul>
+</nav>
+
+<!-- ════════ HERO ════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Digital Health Consultancy</div>
+    <h1>Bridging <em>research</em> &amp; real-world digital health</h1>
+    <p class="hero-sub">Expert academic consultancy in wearable technology, AI-informed patient monitoring, and digital mobility assessment — translating cutting-edge science into clinical and commercial impact.</p>
+    <div class="hero-ctas">
+      <a href="#services" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Explore Services
+      </a>
+      <a href="#contact" class="btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Start a Conversation
+      </a>
+      <a href="profile.html" class="btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </a>
+      <a href="GrantTrewartha_profile.pdf" target="_blank" class="btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        CV
+      </a>
+    </div>
+  </div>
+
+  <!-- Hero visual card -->
+  <div class="hero-visual">
+    <div class="vis-card">
+      <div class="vis-label">Live Gait Monitoring · Remote Patient</div>
+      <svg class="gait-svg" viewBox="0 0 420 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="fadeGrad" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%"   stop-color="#00D4C8" stop-opacity="0"/>
+            <stop offset="20%"  stop-color="#00D4C8" stop-opacity="1"/>
+            <stop offset="80%"  stop-color="#00D4C8" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#00D4C8" stop-opacity="0.1"/>
+          </linearGradient>
+          <linearGradient id="fadeGrad2" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%"   stop-color="#4A90E2" stop-opacity="0"/>
+            <stop offset="20%"  stop-color="#4A90E2" stop-opacity="0.6"/>
+            <stop offset="80%"  stop-color="#4A90E2" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#4A90E2" stop-opacity="0.1"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="35"  x2="420" y2="35"  stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="0" y1="70"  x2="420" y2="70"  stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="0" y1="105" x2="420" y2="105" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <polyline class="wave-path"
+          points="0,70 20,70 28,68 36,55 44,40 50,28 56,40 62,55 68,65 76,68 84,70
+                  90,70 98,68 106,55 114,40 120,28 126,40 132,55 138,65 146,68 154,70
+                  160,70 168,68 176,55 184,40 190,28 196,40 202,55 208,65 216,68 224,70
+                  230,70 238,68 246,55 254,40 260,28 266,40 272,55 278,65 286,68 294,70
+                  300,70 308,68 316,55 324,40 330,28 336,40 342,55 348,65 356,68 364,70
+                  380,70 400,70 420,70"
+          fill="none" stroke="url(#fadeGrad)" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline class="wave-path-2"
+          points="0,70 10,70 18,68 30,60 42,48 48,38 54,48 60,60 66,67 74,69 82,70
+                  88,70 96,68 108,60 120,48 126,38 132,48 138,60 144,67 152,69 160,70
+                  166,70 174,68 186,60 198,48 204,38 210,48 216,60 222,67 230,69 238,70
+                  244,70 252,68 264,60 276,48 282,38 288,48 294,60 300,67 308,69 316,70
+                  322,70 330,68 342,60 354,48 360,38 366,48 372,60 378,67 386,69 394,70
+                  410,70 420,70"
+          fill="none" stroke="url(#fadeGrad2)" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"
+          stroke-dasharray="4 3" opacity="0.7"/>
+        <circle cx="190" cy="28" r="4" fill="#00D4C8" opacity="0.8"/>
+        <line x1="190" y1="28" x2="220" y2="10" stroke="#00D4C8" stroke-width="0.8" opacity="0.6"/>
+        <text x="224" y="13" fill="#00D4C8" font-size="9"
+              font-family="DM Sans, sans-serif" opacity="0.7">peak cadence</text>
+      </svg>
+      <div class="metrics-row">
+        <div class="metric">
+          <span class="metric-val">1.12</span>
+          <div class="metric-lbl">m/s Speed</div>
+        </div>
+        <div class="metric">
+          <span class="metric-val">98</span>
+          <div class="metric-lbl">spm Cadence</div>
+        </div>
+        <div class="metric">
+          <span class="metric-val">0.87</span>
+          <div class="metric-lbl">Symmetry Index</div>
+        </div>
+      </div>
+      <div class="vis-tags">
+        <span class="vis-tag">Remote Monitoring</span>
+        <span class="vis-tag">AI Triage</span>
+        <span class="vis-tag">Frailty Ward</span>
+        <span class="vis-tag">Wearable</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CREDENTIALS STRIP (FIXED) ════════ -->
+<div class="creds-strip">
+  <!-- Label row — centred above the ticker -->
+  <div class="creds-header">
+    <span class="creds-rule"></span>
+    <span class="label">Credentials &amp; Affiliations</span>
+    <span class="creds-rule right"></span>
+  </div>
+
+  <!-- Scrolling ticker row -->
+  <div class="creds-scroll-row">
+    <div class="creds-track">
+      <!-- Items (duplicated for seamless loop) -->
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D4C8" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8l-2 4h12z"/></svg>
+        Professor of Digital Healthcare Interventions · Teesside University
+      </span>
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        7 Years Industry · NURVV Ltd · Head of Research
+      </span>
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D4C8" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        PhD Biomechanics / Computer Vision · Loughborough University
+      </span>
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        88+ Peer-Reviewed Publications · Scopus Verified
+      </span>
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D4C8" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Honorary Reader · University of Bath
+      </span>
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        EPSRC NortHFutures · Academy of Medical Sciences · NIHR
+      </span>
+      <!-- Duplicate for seamless loop -->
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D4C8" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8l-2 4h12z"/></svg>
+        Professor of Digital Healthcare Interventions · Teesside University
+      </span>
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        7 Years Industry · NURVV Ltd · Head of Research
+      </span>
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D4C8" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        PhD Biomechanics / Computer Vision · Loughborough University
+      </span>
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        88+ Peer-Reviewed Publications · Scopus Verified
+      </span>
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D4C8" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Honorary Reader · University of Bath
+      </span>
+      <span class="cred-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        EPSRC NortHFutures · Academy of Medical Sciences · NIHR
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ ABOUT ════════ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="section-eyebrow">About</div>
+      <h2>Where academic <em>rigour</em> meets industry reality</h2>
+      <p>Derry Hill Digital Health is the independent consultancy of <strong>Professor Grant Trewartha</strong> — a rare combination of tenured academic and experienced industry professional with over two decades translating human movement science into clinical tools and commercial products.</p>
+      <p>Having led biomechanics at the wearable technology start-up NURVV Ltd for seven years before returning to academia at Teesside University, Grant brings an end-to-end perspective that few in digital health can match: from sensor characterisation and sensor-to-metrics algorithms to clinical validation and real-world deployment.</p>
+      <p>Whether you are a health technology company seeking academic validation, an NHS trust exploring remote monitoring, or a funding body commissioning independent expertise — Derry Hill Digital Health offers a trusted bridge between the lab and the real world.</p>
+      <br>
+      <a href="#contact" class="btn-primary" style="display:inline-flex;width:fit-content;">Work with Grant</a>
+    </div>
+    <div class="about-stats reveal">
+      <div class="stat-box">
+        <span class="stat-num">25+</span>
+        <div class="stat-desc">Years researching human movement, biomechanics and digital health technology</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">88+</span>
+        <div class="stat-desc">Peer-reviewed publications in leading biomechanics and health technology journals</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">7</span>
+        <div class="stat-desc">Years as Head of Research at a venture-backed wearable technology company</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">£1.5M+</span>
+        <div class="stat-desc">Grants secured from EPSRC, NIHR, Academy of Medical Sciences, and World Rugby</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ SERVICES ════════ -->
+<section id="services">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-eyebrow">Services</div>
+      <h2>How I can <em>help</em> your organisation</h2>
+    </div>
+    <p class="section-intro" style="margin-bottom:0;max-width:380px;">Tailored engagement across strategy, research, product, and education — scoped to your needs and delivered with academic rigour.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3>Remote Patient Monitoring &amp; Gait Analysis</h3>
+      <p class="service-desc">Design and validation of remote monitoring protocols for gait, balance, and mobility in clinical populations. From frailty virtual wards to post-surgical rehabilitation — evidence-based, wearable-enabled, clinically meaningful.</p>
+      <div class="service-tags">
+        <span class="stag">Gait</span><span class="stag">Balance</span><span class="stag">Frailty</span><span class="stag">Virtual Ward</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <h3>Wearable Technology Product Development</h3>
+      <p class="service-desc">End-to-end product consultancy: market research, sensor selection, algorithm development for firmware and app, metrics validation, and product roadmap. Based on hands-on experience building consumer wearables at NURVV.</p>
+      <div class="service-tags">
+        <span class="stag">Sensors</span><span class="stag">Firmware</span><span class="stag">Algorithms</span><span class="stag">Validation</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <h3>AI &amp; Multimodal Data for Clinical Triage</h3>
+      <p class="service-desc">Advisory and delivery on integrating physiological and contextual patient data into AI-driven triage models. Drawing on active research with Visiba Ltd (Academy of Medical Sciences) and NortHFutures (EPSRC).</p>
+      <div class="service-tags">
+        <span class="stag">AI/ML</span><span class="stag">Triage</span><span class="stag">Multimodal</span><span class="stag">Clinical</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <h3>Clinical Research Design &amp; Evidence Generation</h3>
+      <p class="service-desc">Study design, ethics, outcome measure selection, and statistical analysis planning for digital health trials. Support for academic-industry collaborations and grant applications.</p>
+      <div class="service-tags">
+        <span class="stag">RCT</span><span class="stag">Grant Writing</span><span class="stag">Ethics</span><span class="stag">Statistics</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <h3>Digital Health Strategy &amp; Market Intelligence</h3>
+      <p class="service-desc">Strategic landscape analysis for organisations entering the digital health or wearable technology space. Competitive benchmarking, technology readiness assessment and regulatory pathway guidance.</p>
+      <div class="service-tags">
+        <span class="stag">Strategy</span><span class="stag">Market</span><span class="stag">MedTech</span><span class="stag">Regulatory</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>Sport Science, Injury Prevention &amp; Player Welfare</h3>
+      <p class="service-desc">Evidence-based consultancy for sports governing bodies, professional clubs, and technology providers. Drawing on 15+ years of rugby science research in scrum biomechanics, injury surveillance, and player monitoring.</p>
+      <div class="service-tags">
+        <span class="stag">Rugby</span><span class="stag">Injury</span><span class="stag">Biomechanics</span><span class="stag">Sport Tech</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════ EXPERTISE / TIMELINE ════════ -->
+<section id="expertise">
+  <div class="expertise-grid">
+    <div class="reveal">
+      <div class="section-eyebrow">Technical Expertise</div>
+      <h2>Deep skills across <em>science</em> &amp; industry</h2>
+      <p class="section-intro" style="margin-bottom:36px;">A rare academic-industry profile spanning the full digital health stack.</p>
+      <ul class="expertise-list">
+        <li class="exp-item"><span class="exp-dot"></span><span class="exp-text">Inertial Measurement Unit (IMU) sensor systems &amp; signal processing</span></li>
+        <li class="exp-item"><span class="exp-dot"></span><span class="exp-text">3D human motion capture &amp; computer vision tracking</span></li>
+        <li class="exp-item"><span class="exp-dot"></span><span class="exp-text">Machine learning &amp; deep learning for biomechanical data</span></li>
+        <li class="exp-item"><span class="exp-dot"></span><span class="exp-text">Wearable firmware algorithm development</span></li>
+        <li class="exp-item"><span class="exp-dot"></span><span class="exp-text">Remote gait &amp; balance clinical outcome measures</span></li>
+        <li class="exp-item"><span class="exp-dot"></span><span class="exp-text">Multimodal physiological data integration &amp; AI triage</span></li>
+        <li class="exp-item"><span class="exp-dot"></span><span class="exp-text">Musculoskeletal injury biomechanics &amp; risk modelling</span></li>
+        <li class="exp-item"><span class="exp-dot"></span><span class="exp-text">Consumer wearable product development (concept to market)</span></li>
+        <li class="exp-item"><span class="exp-dot"></span><span class="exp-text">Clinical trial design &amp; digital health evidence generation</span></li>
+        <li class="exp-item"><span class="exp-dot"></span><span class="exp-text">Novel sensor technologies for health applications</span></li>
+      </ul>
+    </div>
+
+    <div class="reveal">
+      <div class="section-eyebrow">Career Timeline</div>
+      <h2 style="margin-bottom:48px;">Academic &amp; <em>industry</em> background</h2>
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-date">2023 – Present</span>
+          <div class="tl-role">Professor of Digital Healthcare Interventions</div>
+          <div class="tl-org">Teesside University · School of Health and Life Sciences</div>
+          <div class="tl-desc">Leading research in remote patient monitoring, AI-driven triage, and digital mobility assessment. PI and co-I on EPSRC, NIHR, and Academy of Medical Sciences funded projects.</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-date">2016 – 2023</span>
+          <div class="tl-role">Head of Research</div>
+          <div class="tl-org">NURVV Ltd · Wearable Technology Start-up</div>
+          <div class="tl-desc">End-to-end product development for consumer sport and health wearables. Covered sensor design, firmware algorithms, app feature development, metrics validation, product roadmap, and cutomer pitches.</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-date">2001 – 2016</span>
+          <div class="tl-role">Academic Staff · Department for Health</div>
+          <div class="tl-org">University of Bath · Honorary Reader (2016–present)</div>
+          <div class="tl-desc">15 years of sport biomechanics research, teaching, and programme leadership. Co-director of "Rugby Science" research group. Led numerous projects for rugby's governing bodies on player welfare and injury prevention.</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-date">1998 – 2001</span>
+          <div class="tl-role">PhD · Biomechanics / Computer Vision</div>
+          <div class="tl-org">Loughborough University · Supervised by Prof. Fred Yeadon</div>
+          <div class="tl-desc">"Three-dimensional automatic tracking of human movement." Award-winning research at national and international scientific congresses.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CONTACT ════════ -->
+<section id="contact">
+  <div class="cta-box reveal">
+    <div class="section-eyebrow" style="justify-content:center;margin-bottom:20px;">Get in Touch</div>
+    <h2>Ready to collaborate?</h2>
+    <p>Whether you have a specific project brief, need an expert opinion, or just want to explore possibilities — I welcome conversations at the intersection of academia, industry, and digital health.</p>
+    <div class="email-chip">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      granttrewartha@outlook.com
+    </div>
+    <div class="cta-actions">
+      <a href="mailto:granttrewartha@outlook.com" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email Grant
+      </a>
+      <a href="https://research.tees.ac.uk/en/persons/grant-trewartha/" target="_blank" class="btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Academic Profile
+      </a>
+      <a href="https://orcid.org/0000-0002-9021-8956" target="_blank" class="btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        ORCID Profile
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FOOTER ════════ -->
+<footer>
+  <a href="#" class="logo">
+    <svg style="width:52px;height:36px;overflow:visible">
+      <use href="#logo-mark"/>
+    </svg>
+    <div class="logo-text">
+      <span class="brand" style="font-size:0.9rem;">Derry Hill Digital Health</span>
+      <span class="tagline" style="font-size:0.6rem;">Prof. Grant Trewartha</span>
+    </div>
+  </a>
+  <div class="footer-copy">© 2026 Derry Hill Digital Health. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="https://research.tees.ac.uk/en/persons/grant-trewartha/" target="_blank">Teesside Profile</a>
+    <a href="https://orcid.org/0000-0002-9021-8956" target="_blank">ORCID</a>
+    <a href="https://www.scopus.com/authid/detail.uri?authorId=22956376300" target="_blank">Scopus</a>
+    <a href="mailto:granttrewartha@outlook.com">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal with staggered siblings
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const siblings = [...entry.target.parentElement.querySelectorAll('.reveal')];
+        const idx = siblings.indexOf(entry.target);
+        entry.target.style.transitionDelay = (idx * 0.08) + 's';
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--cyan)' : '';
+    });
+  });
+</script>
+</body>
+</html>
